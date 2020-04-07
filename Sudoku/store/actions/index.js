@@ -25,15 +25,29 @@ export const validateBoard = (data) => {
 	}
 }
 
-export const fetchBoard = (url) => {
+export const fetchGiveUpBoard = (url) => {
 	return (dispatch) => {
 		axios.get(url)
     .then(result => {
-      dispatch (setBoard(result.data.board))
+			console.log('fetching give up board')
+			dispatch (setGiveUpBoard(result.data.board))
     })
     .catch(console.log)
 	}
 }
+
+export const fetchBoard = (url) => {
+	return (dispatch) => {
+		axios.get(url)
+    .then(result => {
+			console.log('fetching')
+			dispatch (setBoard(result.data.board))
+    })
+    .catch(console.log)
+	}
+}
+
+// export const set
 
 export const setDifficulty = (data) => {
 	return {
@@ -52,6 +66,13 @@ export const setName = (data) => {
 const setStatus = (data) => {
 	return {
 		type: 'SET_STATUS',
+		payload: data
+	}
+}
+
+const setGiveUpBoard = (data) => {
+	return {
+		type: 'SET_GIVEUP_BOARD',
 		payload: data
 	}
 }

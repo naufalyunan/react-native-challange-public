@@ -13,12 +13,13 @@ import { useNavigation } from '@react-navigation/native'
 
 const GameScreen = () => {
 	const grids = useSelector(state => state.board.board)
+	const giveUpBoard = useSelector(state => state.board.giveUpBoard)
 	const status = useSelector(state => state.board.status)
 	const name = useSelector(state => state.board.name)
 	const difficulty = useSelector(state => state.board.difficulty)
 	const dispatch = useDispatch()
 	const navigation = useNavigation()
-	
+
 	if(status){
 		navigation.navigate('Finish')
 	}
@@ -39,8 +40,11 @@ const GameScreen = () => {
 	}
 	//give up
 	function solved () {
+		console.log('*****')
+		console.log(giveUpBoard)
+		console.log('*****')
 		const payload = {
-			board: grids
+			board: giveUpBoard
 		}
 		const send = encodeParams(payload)
 		console.log(send)

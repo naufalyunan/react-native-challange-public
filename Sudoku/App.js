@@ -9,7 +9,7 @@
 import React, { useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchBoard } from './store/actions'
+import { fetchBoard, fetchGiveUpBoard } from './store/actions'
 
 import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native'
@@ -29,6 +29,11 @@ function App ()  {
   console.log(url)
   useEffect(() => {
     dispatch(fetchBoard(url))
+    console.log('masok')
+  },[dispatch, url])
+
+  useEffect(() => {
+    dispatch(fetchGiveUpBoard(url))
   },[dispatch, url])
 
   return (
