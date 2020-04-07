@@ -8,7 +8,7 @@
 
 import React, { useEffect } from 'react';
 
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { fetchBoard } from './store/actions'
 
 import { StatusBar } from 'react-native';
@@ -22,11 +22,14 @@ import FinishScreen from './screens/FinishScreen'
 const Stack = createStackNavigator()
 
 function App ()  {
+	const difficulty = useSelector(state => state.board.difficulty)
   const dispatch = useDispatch()
-
+	const url = `https://sugoku.herokuapp.com/board?difficulty=${difficulty}`
+  console.log(difficulty)
+  console.log(url)
   useEffect(() => {
-    dispatch(fetchBoard())
-  },[dispatch])
+    dispatch(fetchBoard(url))
+  },[dispatch, url])
 
   return (
     <>

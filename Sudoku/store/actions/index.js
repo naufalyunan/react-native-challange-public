@@ -25,13 +25,20 @@ export const validateBoard = (data) => {
 	}
 }
 
-export const fetchBoard = () => {
+export const fetchBoard = (url) => {
 	return (dispatch) => {
-		axios.get('https://sugoku.herokuapp.com/board?difficulty=easy')
+		axios.get(url)
     .then(result => {
       dispatch (setBoard(result.data.board))
     })
     .catch(console.log)
+	}
+}
+
+export const setDifficulty = (data) => {
+	return {
+		type: 'SET_DIFFICULTY',
+		payload: data
 	}
 }
 

@@ -2,7 +2,8 @@ const initialState = {
 	board: [],
 	// [[8, 3, 4, 6, 7, 9, 2, 5, 1], [1, 2, 5, 3, 4, 8, 6, 7, 9], [6, 7, 9, 1, 2, 5, 3, 4, 8], [2, 1, 3, 4, 5, 6, 8, 9, 7], [4, 5, 6, 8, 9, 7, 1, 2, 3], [7, 9, 8, 2, 1, 3, 4, 6, 5], [3, 4, 7, 5, 6, 1, 9, 8, 2], [5, 6, 1, 9, 8, 2, 7, 3, 4], [9, 8, 2, 7, 3, 4, 5, 1, 6]],
 	status: false,
-	name: ''
+	name: '',
+	difficulty: 'easy'
 }
 
 const boardReducers = (state = initialState, action) => {
@@ -29,6 +30,11 @@ const boardReducers = (state = initialState, action) => {
 			return {
 				...state,
 				name: action.payload
+			}
+		case 'SET_DIFFICULTY':
+			return {
+				...state,
+				difficulty: action.payload
 			}
 		default:
 			return state

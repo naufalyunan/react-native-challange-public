@@ -15,9 +15,10 @@ const GameScreen = () => {
 	const grids = useSelector(state => state.board.board)
 	const status = useSelector(state => state.board.status)
 	const name = useSelector(state => state.board.name)
+	const difficulty = useSelector(state => state.board.difficulty)
 	const dispatch = useDispatch()
 	const navigation = useNavigation()
-
+	
 	if(status){
 		navigation.navigate('Finish')
 	}
@@ -28,6 +29,7 @@ const GameScreen = () => {
 		Object.keys(params)
 		.map(key => key + '=' + `%5B${encodeBoard(params[key])}%5D`)
 		.join('&');
+	//validate 
 	function submit() {
 		const payload = {
 			board: grids
@@ -35,8 +37,7 @@ const GameScreen = () => {
 		const send = encodeParams(payload)
 		dispatch(validateBoard(send))
 	}
-
-
+	//give up
 	function solved () {
 		const payload = {
 			board: grids
@@ -44,13 +45,12 @@ const GameScreen = () => {
 		const send = encodeParams(payload)
 		console.log(send)
 		dispatch(solveBoard(send))
-	}
-	
-	console.log(grids)
+	}	
 	return (
 		<SafeAreaView>
 			<View style={styles.container}>
-				<Text style={ styles.title }>{` ${name}'s Sudoku Game `}</Text>
+				<Text style={ styles.title }>{`${name}'s Sudoku Game`}</Text>
+				<Text style={ styles.title }>{`Difficulty: ${difficulty}`}</Text>
 				<View style={ styles.board }>
 					<FlatList
 						data={ grids }
