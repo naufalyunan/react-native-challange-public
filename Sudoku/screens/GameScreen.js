@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Platform, StyleSheet, FlatList, View, Button, Text, TextInput, SafeAreaView, KeyboardAvoidingView } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import {
@@ -25,23 +25,22 @@ const GameScreen = () => {
 	const dispatch = useDispatch()
 	const navigation = useNavigation()
 
-	console.log('-------')
-	console.log(difficulty)
-	// console.log(prevDifficulty)
-	console.log('-------')
-	// dispatch(setDifficulty(prevDifficulty))
+	// const [old, setOld] = useState([])
+
 	const url = `https://sugoku.herokuapp.com/board?difficulty=${difficulty}`
 	
 	useEffect(() => {
 		console.log('fetching....')
 		console.log(url)
-    dispatch(fetchBoard(url))
+		// setOld(giveUpBoard)
+		dispatch(fetchBoard(url))
+		console.log(grids)
+		console.log(giveUpBoard)
   },[dispatch, url])
 
 	if(status){
 		navigation.navigate('Finish')
 	}
-	console.log(grids)
 	//function to encode before send
 	const encodeBoard = (board) => board.reduce((result, row, i) => result + `%5B${encodeURIComponent(row)}%5D${i === board.length -1 ? '' : '%2C'}`, '')
 	const encodeParams = (params) => 
@@ -61,6 +60,10 @@ const GameScreen = () => {
 		const payload = {
 			board: giveUpBoard
 		}
+		console.log('======')
+		console.log(grids)
+		console.log(giveUpBoard)
+		console.log('======')
 		const send = encodeParams(payload)
 		dispatch(solveBoard(send))
 	}	
@@ -79,7 +82,6 @@ const GameScreen = () => {
 			</View>
 		</SafeAreaView>
 	)
-	console.log('====', message, '====')
 	if(message) return (
 		<SafeAreaView>
 			<View style={{ display: "flex", justifyContent: "center", alignItems: "center" ,width: wp('100%'), height: hp('100%'), backgroundColor: '#202040'}}>
@@ -104,7 +106,6 @@ const GameScreen = () => {
 				behavior={Platform.Os == "ios" ? "padding" : "height"}
 				style={{flex: 1}}
 			>
-				{/* <View style={styles.container}> */}
 				<SafeAreaView style={ styles.container }>
 					<Text style={ {...styles.title, marginTop: 30} }>{`${name}'s Sudoku Game`}</Text>
 					<Text style={ {...styles.title, marginBottom: 30} }>{`Difficulty: ${difficulty}`}</Text>
@@ -119,26 +120,12 @@ const GameScreen = () => {
 					</View>
 					<View style={{ display: "flex", flexDirection: "row", justifyContent: 'space-around', width: wp(70), height: hp(20), marginTop: 20 }}>
 						<TapGestureHandler onHandlerStateChange={ submit }>
-							{/* <Button
-								onPress={submit}
-								title="Submit"
-								color="#ff6363"
-								accessibilityLabel="Learn more about this purple button"
-								style= { styles.submit }
-							/> */}
 							<Text style={ styles.submit }> Submit </Text>
 						</TapGestureHandler>
 						<TapGestureHandler onHandlerStateChange={ solved }>
-							{/* <Button
-								onPress={solved}
-								title="Give Up!"
-								color="#ff6363"
-								style= { styles.submit }
-							/> */}
 							<Text style={ styles.submit }> Give Up </Text>
 						</TapGestureHandler>
 					</View>
-				{/* </View> */}
 				<View style={{ flex : 1 }} />
 			</SafeAreaView>
 		</KeyboardAvoidingView>
@@ -147,7 +134,6 @@ const GameScreen = () => {
 
 function Row (props) {
   const { row, rowIndex } = props
-  console.log(rowIndex)
   return(
     <View style={ styles.row }>
       {
@@ -155,18 +141,12 @@ function Row (props) {
         <Grid key={ i } grid={ element } rowIndex={ rowIndex } colIndex={ i }/>
         ))
       }
-      {/* <FlatList
-        data={ row }
-        renderItem={({item: data, index}) => (
-          <Grid grid={ data }/>
-        )}
-        keyExtractor={(data, index) => index.toString()}
-      /> */}
     </View>
   )
 }
 
 function Grid (props) {
+	const board = useSelector(state => state.board.board)
 	const { grid, rowIndex, colIndex } = props
 	const dispatch = useDispatch()
 
@@ -177,9 +157,10 @@ function Grid (props) {
 			colIndex
 		}
 		dispatch(setElement(payload))
+		console.log('function change element')
+		console.log(board)
 	}
 
-	// && (colIndex + 1) % 3 === 0 || colIndex === 0 ?  : { ...styles.grid }
 	const renderStyle = () => {
 		if((rowIndex + 1) % 3 === 0){
 			if((colIndex + 1) % 3 === 0) {
@@ -231,8 +212,6 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     alignItems: 'center',
-    // width: wp('100%'),
-		// height: hp('100%'),
 		flex: 1,
 		backgroundColor: '#202040',
 		justifyContent: "flex-end"

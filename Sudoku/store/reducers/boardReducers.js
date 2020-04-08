@@ -24,6 +24,13 @@ const boardReducers = (state = initialState, action) => {
 			const col = action.payload.colIndex
 			const data = action.payload.data
 			state.board[row][col] = data
+			console.log('=======')
+			console.log('*******')
+			console.log(state.board)
+			console.log(state.giveUpBoard)
+			console.log('*******')
+			console.log('=======')
+
 			return {
 				...state
 			}
