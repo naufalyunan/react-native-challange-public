@@ -25,15 +25,12 @@ const GameScreen = () => {
 	const dispatch = useDispatch()
 	const navigation = useNavigation()
 
-	// const [old, setOld] = useState([])
 	const url = `https://sugoku.herokuapp.com/board?difficulty=${difficulty}`
 	
 	useEffect(() => {
 		console.log('fetching....')
 		console.log(url)
 		dispatch(fetchBoard(url))
-		console.log(grids)
-		console.log(giveUpBoard)
   },[dispatch, url])
 
 	if(status){
@@ -58,10 +55,6 @@ const GameScreen = () => {
 		const payload = {
 			board: giveUpBoard
 		}
-		console.log('======')
-		console.log(grids)
-		console.log(giveUpBoard)
-		console.log('======')
 		const send = encodeParams(payload)
 		dispatch(solveBoard(send))
 	}	
@@ -144,7 +137,6 @@ function Row (props) {
 }
 
 function Grid (props) {
-	const board = useSelector(state => state.board.board)
 	const { grid, rowIndex, colIndex } = props
 	const dispatch = useDispatch()
 
@@ -155,8 +147,6 @@ function Grid (props) {
 			colIndex
 		}
 		dispatch(setElement(payload))
-		console.log('function change element')
-		// console.log(board)
 	}
 
 	const renderStyle = () => {

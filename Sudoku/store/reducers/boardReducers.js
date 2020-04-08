@@ -25,12 +25,6 @@ const boardReducers = (state = initialState, action) => {
 			const col = action.payload.colIndex
 			const data = action.payload.data
 			inputtedBoard[row][col] = data
-			console.log('=======')
-			console.log('*******')
-			console.log(state.board)
-			console.log(inputtedBoard)
-			console.log('*******')
-			console.log('=======')
 			return {
 				...state,
 				board: inputtedBoard
