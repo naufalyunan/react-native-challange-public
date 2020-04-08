@@ -3,7 +3,7 @@ const initialState = {
 	giveUpBoard: [],
 	status: false,
 	name: '',
-	difficulty: 'easy'
+	difficulty: ''
 }
 
 const boardReducers = (state = initialState, action) => {
@@ -23,15 +23,15 @@ const boardReducers = (state = initialState, action) => {
 			const col = action.payload.colIndex
 			const data = action.payload.data
 			state.board[row][col] = data
-			// for (let i = 0; i < state.board.length; i++) {
-			// 	for (let j = 0; j < state.board[i].length; j++) {
-			// 		if(i === row && j === col){
-			// 			state.board[i][j] = data
-			// 		}
-			// 	}
-			// }
 			return {
 				...state
+			}
+		case 'RESET': 
+			return {
+				...state,
+				board: [],
+				giveUpBoard: [],
+				status: false
 			}
 		case 'SET_STATUS':
 			return {

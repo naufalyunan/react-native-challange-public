@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Text, View, StyleSheet, SafeAreaView, Button, TextInput } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { useNavigation } from '@react-navigation/native'
@@ -10,11 +10,13 @@ function HomeScreen() {
 	const [localName, setLocalName] = useState('')
 	const navigation = useNavigation()
 	const dispatch = useDispatch()
-	
+
 	function goToGame() {
-		console.log(localName)
 		dispatch(setName(localName))
 		navigation.navigate('Game')
+		setLocalName('')
+		this.textInput.clear()
+		this.pickerInput.clear()
 	}
 
 	function changeHandler({ nativeEvent }) {
@@ -31,6 +33,7 @@ function HomeScreen() {
 			<View style={ styles.container }>
 				<Text style={ styles.title }>Sudoku</Text>
 				<TextInput
+					ref={input => { this.textInput = input }}
 					placeholder="Input Your Name"
 					style={ styles.nameInput }
 					placeholderTextColor="grey"
@@ -41,9 +44,11 @@ function HomeScreen() {
 				</TextInput>
 				<View style={styles.containerPicker}>
 					<RNPickerSelect
+							textInputProps={{ref: input => this.pickerInput = input }}
 							style={ pickerSelectStyles }
-							placeholder={{label: "Select Difficulty", value: 'easy'}}
+							placeholder={{label: "Select Difficulty", value: ''}}
 							onValueChange={selectDifficulty}
+							useNativeAndroidPickerStyle={false}
 							items={[
 									{ label: 'Easy', value: 'easy' },
 									{ label: 'Medium', value: 'medium' },

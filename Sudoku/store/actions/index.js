@@ -1,9 +1,18 @@
 import axios from 'axios'
 
+export const reset = () => {
+	return {
+		type: 'RESET'
+	}
+}
+
 export const solveBoard = (data) => {
 	return (dispatch) => {
 		axios.post('https://sugoku.herokuapp.com/solve', data)
 			.then(result => {
+				console.log('====')
+				console.log(result.data.solution)
+				console.log('=====')
 				dispatch (setBoard(result.data.solution))
 			})
 			.catch(console.log)
@@ -25,21 +34,11 @@ export const validateBoard = (data) => {
 	}
 }
 
-export const fetchGiveUpBoard = (url) => {
-	return (dispatch) => {
-		axios.get(url)
-    .then(result => {
-			console.log('fetching give up board')
-			dispatch (setGiveUpBoard(result.data.board))
-    })
-    .catch(console.log)
-	}
-}
-
 export const fetchBoard = (url) => {
 	return (dispatch) => {
 		axios.get(url)
     .then(result => {
+			dispatch (setGiveUpBoard(result.data.board))
 			console.log('fetching')
 			dispatch (setBoard(result.data.board))
     })
@@ -47,7 +46,12 @@ export const fetchBoard = (url) => {
 	}
 }
 
-// export const set
+export const setPrevDifficulty = (data) => {
+	return {
+		type: 'SET_PREV_DIFFICULTY',
+		payload: data
+	}
+}
 
 export const setDifficulty = (data) => {
 	return {
@@ -63,7 +67,7 @@ export const setName = (data) => {
 	}
 }
 
-const setStatus = (data) => {
+export const setStatus = (data) => {
 	return {
 		type: 'SET_STATUS',
 		payload: data
