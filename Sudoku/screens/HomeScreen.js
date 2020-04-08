@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Text, View, StyleSheet, SafeAreaView, Button, TextInput } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { useNavigation } from '@react-navigation/native'
@@ -7,7 +7,7 @@ import { setName, setDifficulty } from './../store/actions'
 import RNPickerSelect from 'react-native-picker-select';
 
 function HomeScreen() {
-	const [localName, setLocalName] = useState('')
+	const [localName, setLocalName] = useState('Player')
 	const navigation = useNavigation()
 	const dispatch = useDispatch()
 
@@ -36,7 +36,7 @@ function HomeScreen() {
 					ref={input => { this.textInput = input }}
 					placeholder="Input Your Name"
 					style={ styles.nameInput }
-					placeholderTextColor="grey"
+					placeholderTextColor="#f8e1f4"
 					onChange={ changeHandler }
 					autoFocus
 					autoCorrect= {false}
@@ -47,6 +47,7 @@ function HomeScreen() {
 							textInputProps={{ref: input => this.pickerInput = input }}
 							style={ pickerSelectStyles }
 							placeholder={{label: "Select Difficulty", value: ''}}
+							placeholderTextColor= "#f8e1f4"
 							onValueChange={selectDifficulty}
 							useNativeAndroidPickerStyle={false}
 							items={[
@@ -57,7 +58,7 @@ function HomeScreen() {
 							]}
 					/>
 				</View>
-				<Button title="Play Game" onPress={ goToGame.bind(this) } />
+				<Button title="Play Game" onPress={ goToGame.bind(this) } color="#ff6363" />
 			</View>
 		</SafeAreaView>
 	)
@@ -66,50 +67,54 @@ function HomeScreen() {
 const styles = StyleSheet.create({
 	title: {
 		fontSize: wp('15%'),
-		textAlign: "center"
+		textAlign: "center",
+		color: '#ffbd69',
+		margin: wp('10%')
 	},
 	container: {
 		display: "flex",
 		justifyContent: "center",
 		alignItems: "center",
 		width: wp('100%'),
-		height: hp('100%')
+		height: hp('100%'),
+		backgroundColor: '#202040'
 	},
 	nameInput: {
 		width: wp('40%'),
 		height: hp('5%'),
 		fontSize: wp('5%'),
 		textAlign: "center",
-		margin: wp('2%')
+		marginBottom: wp('3%'),
+		color: '#f8e1f4'
 	},
 	containerPicker: {
 		alignItems: "center",
 		width: wp('40%'),
 		height: hp('5%'),
 		fontSize: wp('10%'),
-		margin: wp('2%')
+		margin: wp('3%')
 	}
 })
 
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     fontSize: wp('5%'),
-    paddingVertical: wp('1%'),
-    paddingHorizontal: wp('1%'),
+    paddingVertical: wp('2%'),
+    paddingHorizontal: wp('2%'),
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: '#f8e1f4',
     borderRadius: 4,
-		color: 'black',
+		color: '#f8e1f4',
     paddingRight: wp('5%') // to ensure the text is never behind the icon
   },
   inputAndroid: {
     fontSize: wp('5%'),
-    paddingHorizontal: wp('1%'),
-    paddingVertical: wp('1%'),
+    paddingHorizontal: wp('2%'),
+    paddingVertical: wp('2%'),
     borderWidth: 0.5,
-    borderColor: 'purple',
+    borderColor: 'gold',
     borderRadius: 8,
-    color: 'black',
+    color: '#f8e1f4',
     paddingRight: wp('5%') // to ensure the text is never behind the icon
   },
 });

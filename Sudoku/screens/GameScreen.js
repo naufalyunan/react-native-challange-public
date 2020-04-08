@@ -67,33 +67,33 @@ const GameScreen = () => {
 
 	if(loadingFetching) return (
 		<SafeAreaView>
-			<View style={{ display: "flex", justifyContent: "center", alignItems: "center" ,width: wp(100), height: hp(100)}}>
-				<Text style={styles.title}>Fetching Board...</Text>
+			<View style={{ display: "flex", justifyContent: "center", alignItems: "center" ,width: wp('100%'), height: hp('100%'), backgroundColor: '#202040'}}>
+				<Text style={{ fontSize: wp(10), color: '#ffbd69' }}>Fetching Board...</Text>
 			</View>
 		</SafeAreaView>
 	)
 	if(loadingSubmit) return (
 		<SafeAreaView>
-			<View style={{ display: "flex", justifyContent: "center", alignItems: "center" ,width: wp(100), height: hp(100)}}>
-				<Text style={styles.title}>Validating...</Text>
+			<View style={{ display: "flex", justifyContent: "center", alignItems: "center" ,width: wp('100%'), height: hp('100%'), backgroundColor: '#202040'}}>
+				<Text style={{ fontSize: wp(10), color: '#ffbd69' }}>Validating...</Text>
 			</View>
 		</SafeAreaView>
 	)
 	console.log('====', message, '====')
 	if(message) return (
 		<SafeAreaView>
-			<View style={{ display: "flex", justifyContent: "center", alignItems: "center" ,width: wp(100), height: hp(100)}}>
-				<Text style={styles.title}>{ message }</Text>
+			<View style={{ display: "flex", justifyContent: "center", alignItems: "center" ,width: wp('100%'), height: hp('100%'), backgroundColor: '#202040'}}>
+				<Text style={{ fontSize: wp(10), color: '#ffbd69', margin: wp('5%') }}>{ message }</Text>
 				<TapGestureHandler onHandlerStateChange={() => { dispatch(setMessage(''))  }}>
-					<Text>Tap here to try again</Text>
+					<Text style={{ ...styles.submit, width: wp('50%') }}>Tap here to try again</Text>
 				</TapGestureHandler>
 			</View>
 		</SafeAreaView>
 	)
 	if(loadingGiveUp) return (
 		<SafeAreaView>
-			<View style={{ display: "flex", justifyContent: "center", alignItems: "center" ,width: wp(100), height: hp(100)}}>
-				<Text style={styles.title}>Fetching Solution...</Text>
+			<View style={{ display: "flex", justifyContent: "center", alignItems: "center" ,width: wp('100%'), height: hp('100%'), backgroundColor: '#202040'}}>
+				<Text style={{ fontSize: wp(10), color: '#ffbd69' }}>Fetching Solution...</Text>
 			</View>
 		</SafeAreaView>
 	)
@@ -106,8 +106,8 @@ const GameScreen = () => {
 				style={styles.container}
 			>
 				{/* <View style={styles.container}> */}
-					<Text style={ styles.title }>{`${name}'s Sudoku Game`}</Text>
-					<Text style={ styles.title }>{`Difficulty: ${difficulty}`}</Text>
+					<Text style={ {...styles.title, marginTop: 30} }>{`${name}'s Sudoku Game`}</Text>
+					<Text style={ {...styles.title, marginBottom: 30} }>{`Difficulty: ${difficulty}`}</Text>
 					<View style={ styles.board }>
 						<FlatList
 							data={ grids }
@@ -117,19 +117,27 @@ const GameScreen = () => {
 							keyExtractor={(item, index) => index.toString()}
 						/>
 					</View>
-					<Button
-						onPress={submit}
-						title="Submit"
-						color="navy"
-						accessibilityLabel="Learn more about this purple button"
-						style= { styles.submit }
-					/>
-					<Button
-						onPress={solved}
-						title="Give Up!"
-						color="maroon"
-						style= { styles.submit }
-					/>
+					<View style={{ display: "flex", flexDirection: "row", justifyContent: 'space-around', width: wp(70), height: hp(20), marginTop: 20 }}>
+						<TapGestureHandler onHandlerStateChange={ submit }>
+							{/* <Button
+								onPress={submit}
+								title="Submit"
+								color="#ff6363"
+								accessibilityLabel="Learn more about this purple button"
+								style= { styles.submit }
+							/> */}
+							<Text style={ styles.submit }> Submit </Text>
+						</TapGestureHandler>
+						<TapGestureHandler onHandlerStateChange={ solved }>
+							{/* <Button
+								onPress={solved}
+								title="Give Up!"
+								color="#ff6363"
+								style= { styles.submit }
+							/> */}
+							<Text style={ styles.submit }> Give Up </Text>
+						</TapGestureHandler>
+					</View>
 				{/* </View> */}
 			</KeyboardAvoidingView>
 		</SafeAreaView>
@@ -183,14 +191,15 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    margin: 20
+		margin: 10,
+		color: '#ffbd69'
   },
   container: {
     display: 'flex',
     alignItems: 'center',
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'orange'
+    width: wp('100%'),
+    height: hp('100%'),
+    backgroundColor: '#202040'
   },
   board: {
     width: wp('90%'),
@@ -212,14 +221,25 @@ const styles = StyleSheet.create({
     height: hp('6%'),
     borderColor: 'black',
     borderWidth: 1,
-		backgroundColor: 'olive',
+		backgroundColor: '#fff0f5',
+		color: '#543864'
 	},
 	gridText: {
 		fontSize: 20
 	},
   submit: {
-    width: '50%',
-    height: '10%',
+    fontSize: 20,
+		color: "#ff6363",
+		backgroundColor: '#543864',
+		height: hp('4%'),
+		width: wp('30%'),
+		margin: wp('3%'),
+		textAlign: "center",
+		textAlignVertical: 'center',
+		padding: wp('1%'),
+		borderColor: 'white',
+		borderWidth: 1,
+		borderRadius: 5
   }
 });
 

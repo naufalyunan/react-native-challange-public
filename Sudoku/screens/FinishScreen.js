@@ -67,43 +67,44 @@ const styles = StyleSheet.create({
 	title: {
 		fontSize: wp('8%'),
 		textAlign: 'center',
-		padding: wp('1%')
+		padding: wp('1%'),
+		color: '#ffbd69'
 	},
 	container: {
 		display: "flex",
 		justifyContent: "center",
 		alignItems: "center",
 		width: wp('100%'),
-		height: hp('100%')
+		height: hp('100%'),
+		backgroundColor: '#202040'
 	},
 	playAgain: {
 		margin: 20,
 		fontSize: wp('5%'),
 		textAlign: 'center',
-		color: 'orange'
+		color: '#ff6363'
 	}
 })
 
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
-		margin: 20,
     fontSize: wp('5%'),
-    paddingVertical: wp('1%'),
-    paddingHorizontal: wp('1%'),
+    paddingVertical: wp('2%'),
+    paddingHorizontal: wp('2%'),
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: '#f8e1f4',
     borderRadius: 4,
-		color: 'black',
+		color: '#f8e1f4',
     paddingRight: wp('5%') // to ensure the text is never behind the icon
   },
   inputAndroid: {
     fontSize: wp('5%'),
-    paddingHorizontal: wp('1%'),
-    paddingVertical: wp('1%'),
+    paddingHorizontal: wp('2%'),
+    paddingVertical: wp('2%'),
     borderWidth: 0.5,
-    borderColor: 'purple',
+    borderColor: 'gold',
     borderRadius: 8,
-    color: 'black',
+    color: '#f8e1f4',
     paddingRight: wp('5%') // to ensure the text is never behind the icon
   },
 });
