@@ -26,13 +26,11 @@ const GameScreen = () => {
 	const navigation = useNavigation()
 
 	// const [old, setOld] = useState([])
-
 	const url = `https://sugoku.herokuapp.com/board?difficulty=${difficulty}`
 	
 	useEffect(() => {
 		console.log('fetching....')
 		console.log(url)
-		// setOld(giveUpBoard)
 		dispatch(fetchBoard(url))
 		console.log(grids)
 		console.log(giveUpBoard)
@@ -158,7 +156,7 @@ function Grid (props) {
 		}
 		dispatch(setElement(payload))
 		console.log('function change element')
-		console.log(board)
+		// console.log(board)
 	}
 
 	const renderStyle = () => {

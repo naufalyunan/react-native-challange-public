@@ -52,9 +52,10 @@ export const fetchBoard = (url) => {
 		axios.get(url)
     .then(result => {
 			console.log('fetching dari action')
-			dispatch (setGiveUpBoard(result.data.board))
+			const changeRef = result.data.board.map(el => { return [...el] })
+			dispatch (setGiveUpBoard(changeRef))
 			dispatch (setBoard(result.data.board))
-			console.log(result.data.board)
+			// console.log(result.data.board)
     })
 		.catch(console.log)
 		.finally(_ => dispatch(setLoadingFetching(false)))

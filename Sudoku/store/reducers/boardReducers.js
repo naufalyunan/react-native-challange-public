@@ -20,19 +20,20 @@ const boardReducers = (state = initialState, action) => {
 				giveUpBoard: action.payload
 			}
 		case 'SET_ELEMENT': 
+			const inputtedBoard = state.board.map(el => {return [...el]})
 			const row = action.payload.rowIndex
 			const col = action.payload.colIndex
 			const data = action.payload.data
-			state.board[row][col] = data
+			inputtedBoard[row][col] = data
 			console.log('=======')
 			console.log('*******')
 			console.log(state.board)
-			console.log(state.giveUpBoard)
+			console.log(inputtedBoard)
 			console.log('*******')
 			console.log('=======')
-
 			return {
-				...state
+				...state,
+				board: inputtedBoard
 			}
 		case 'RESET': 
 			return {
