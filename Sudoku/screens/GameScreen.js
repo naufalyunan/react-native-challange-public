@@ -178,15 +178,39 @@ function Grid (props) {
 		dispatch(setElement(payload))
 	}
 
+	// && (colIndex + 1) % 3 === 0 || colIndex === 0 ?  : { ...styles.grid }
+	const renderStyle = () => {
+		if((rowIndex + 1) % 3 === 0){
+			if((colIndex + 1) % 3 === 0) {
+				return {...styles.grid, borderRightColor: 'black', borderRightWidth: 1, borderBottomColor: 'black', borderBottomWidth: 1 }
+			} else {
+				return {...styles.grid, borderBottomColor: 'black', borderBottomWidth: 1 }
+			}
+		}
+		if(rowIndex === 0){
+			if((colIndex + 1) % 3 === 0) {
+				return {...styles.grid, borderRightColor: 'black', borderRightWidth: 1, borderTopColor: 'black', borderTopWidth: 1 }
+			} else {
+				return {...styles.grid, borderTopColor: 'black', borderTopWidth: 1 }
+			}
+		} else {
+			if((colIndex + 1) % 3 === 0) {
+				return {...styles.grid, borderRightColor: 'black', borderRightWidth: 1 }
+			} else {
+				return { ...styles.grid }  
+			}
+		}
+	}
+
   return(
 		<>
 			{ 
 				grid === 0 ? 
-					<View style={ styles.grid }>
+					<View style={ renderStyle() }>
 						<TextInput style={ styles.gridText } maxLength={ 1 } onChangeText={text => changeHandler(text) } defaultValue={ grid.toString() } /> 
 					</View>
 					: 
-					<View style={{...styles.grid, backgroundColor: '#efa8e4' }}>
+					<View style={ {...renderStyle(), backgroundColor: '#efa8e4' }}>
 						<TextInput editable={ false } style={ styles.gridText } onChangeText={text => changeHandler(text) } defaultValue={ grid.toString() } /> 
 					</View>
 			}
@@ -228,8 +252,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: wp('10%') ,
     height: hp('6%'),
-    borderColor: 'black',
-    borderWidth: 1,
+    borderColor: 'grey',
+		borderWidth: 0.5,
 		backgroundColor: '#fff0f5',
 		color: '#543864'
 	},
