@@ -100,12 +100,12 @@ const GameScreen = () => {
 
 
 	return (
-		<SafeAreaView>
 			<KeyboardAvoidingView
 				behavior={Platform.Os == "ios" ? "padding" : "height"}
-				style={styles.container}
+				style={{flex: 1}}
 			>
 				{/* <View style={styles.container}> */}
+				<SafeAreaView style={ styles.container }>
 					<Text style={ {...styles.title, marginTop: 30} }>{`${name}'s Sudoku Game`}</Text>
 					<Text style={ {...styles.title, marginBottom: 30} }>{`Difficulty: ${difficulty}`}</Text>
 					<View style={ styles.board }>
@@ -139,8 +139,9 @@ const GameScreen = () => {
 						</TapGestureHandler>
 					</View>
 				{/* </View> */}
-			</KeyboardAvoidingView>
-		</SafeAreaView>
+				<View style={{ flex : 1 }} />
+			</SafeAreaView>
+		</KeyboardAvoidingView>
 	)
 }
 
@@ -230,9 +231,11 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     alignItems: 'center',
-    width: wp('100%'),
-    height: hp('100%'),
-    backgroundColor: '#202040'
+    // width: wp('100%'),
+		// height: hp('100%'),
+		flex: 1,
+		backgroundColor: '#202040',
+		justifyContent: "flex-end"
   },
   board: {
     width: wp('90%'),
