@@ -179,9 +179,18 @@ function Grid (props) {
 	}
 
   return(
-    <View style={ styles.grid }>
-      { grid === 0 ? <TextInput style={ styles.gridText } maxLength={ 1 } onChangeText={text => changeHandler(text) } defaultValue={ grid.toString() } /> : <TextInput editable={ false } style={ styles.gridText } onChangeText={text => changeHandler(text) } defaultValue={ grid.toString() } /> }
-    </View>
+		<>
+			{ 
+				grid === 0 ? 
+					<View style={ styles.grid }>
+						<TextInput style={ styles.gridText } maxLength={ 1 } onChangeText={text => changeHandler(text) } defaultValue={ grid.toString() } /> 
+					</View>
+					: 
+					<View style={{...styles.grid, backgroundColor: '#efa8e4' }}>
+						<TextInput editable={ false } style={ styles.gridText } onChangeText={text => changeHandler(text) } defaultValue={ grid.toString() } /> 
+					</View>
+			}
+		</>
   )
 }
 
