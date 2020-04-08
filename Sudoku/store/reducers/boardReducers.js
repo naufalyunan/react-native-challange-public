@@ -3,7 +3,8 @@ const initialState = {
 	giveUpBoard: [],
 	status: false,
 	name: '',
-	difficulty: ''
+	difficulty: '',
+	message: ''
 }
 
 const boardReducers = (state = initialState, action) => {
@@ -31,7 +32,8 @@ const boardReducers = (state = initialState, action) => {
 				...state,
 				board: [],
 				giveUpBoard: [],
-				status: false
+				status: false,
+				message: ''
 			}
 		case 'SET_STATUS':
 			return {
@@ -47,6 +49,11 @@ const boardReducers = (state = initialState, action) => {
 			return {
 				...state,
 				difficulty: action.payload
+			}
+		case 'SET_MESSAGE':
+			return {
+				...state,
+				message: action.payload
 			}
 		default:
 			return state

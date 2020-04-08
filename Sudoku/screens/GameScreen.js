@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react'
-import { StyleSheet, FlatList, View, Button, Text, TextInput, SafeAreaView } from 'react-native'
+import { Platform, StyleSheet, FlatList, View, Button, Text, TextInput, SafeAreaView, KeyboardAvoidingView } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import {
   Colors
 } from 'react-native/Libraries/NewAppScreen';
 import { useSelector, useDispatch } from 'react-redux'
 
-import { setElement, validateBoard, solveBoard, fetchBoard } from './../store/actions'
+import { setElement, validateBoard, solveBoard, fetchBoard, setMessage } from './../store/actions'
 
 import { useNavigation } from '@react-navigation/native'
+import { TapGestureHandler } from 'react-native-gesture-handler';
 
 
 const GameScreen = () => {
@@ -17,6 +18,10 @@ const GameScreen = () => {
 	const status = useSelector(state => state.board.status)
 	const name = useSelector(state => state.board.name)
 	const difficulty = useSelector(state => state.board.difficulty)
+	const loadingFetching = useSelector(state => state.loading.loadingFetching)
+	const loadingSubmit = useSelector(state => state.loading.loadingSubmit)
+	const loadingGiveUp = useSelector(state => state.loading.loadingGiveUp)
+	const message = useSelector(state => state.board.message)
 	const dispatch = useDispatch()
 	const navigation = useNavigation()
 
@@ -29,6 +34,7 @@ const GameScreen = () => {
 	
 	useEffect(() => {
 		console.log('fetching....')
+		console.log(url)
     dispatch(fetchBoard(url))
   },[dispatch, url])
 
@@ -58,34 +64,74 @@ const GameScreen = () => {
 		const send = encodeParams(payload)
 		dispatch(solveBoard(send))
 	}	
+
+	if(loadingFetching) return (
+		<SafeAreaView>
+			<View style={{ display: "flex", justifyContent: "center", alignItems: "center" ,width: wp(100), height: hp(100)}}>
+				<Text style={styles.title}>Fetching Board...</Text>
+			</View>
+		</SafeAreaView>
+	)
+	if(loadingSubmit) return (
+		<SafeAreaView>
+			<View style={{ display: "flex", justifyContent: "center", alignItems: "center" ,width: wp(100), height: hp(100)}}>
+				<Text style={styles.title}>Validating...</Text>
+			</View>
+		</SafeAreaView>
+	)
+	console.log('====', message, '====')
+	if(message) return (
+		<SafeAreaView>
+			<View style={{ display: "flex", justifyContent: "center", alignItems: "center" ,width: wp(100), height: hp(100)}}>
+				<Text style={styles.title}>{ message }</Text>
+				<TapGestureHandler onHandlerStateChange={() => { dispatch(setMessage(''))  }}>
+					<Text>Tap here to try again</Text>
+				</TapGestureHandler>
+			</View>
+		</SafeAreaView>
+	)
+	if(loadingGiveUp) return (
+		<SafeAreaView>
+			<View style={{ display: "flex", justifyContent: "center", alignItems: "center" ,width: wp(100), height: hp(100)}}>
+				<Text style={styles.title}>Fetching Solution...</Text>
+			</View>
+		</SafeAreaView>
+	)
+
+
 	return (
 		<SafeAreaView>
-			<View style={styles.container}>
-				<Text style={ styles.title }>{`${name}'s Sudoku Game`}</Text>
-				<Text style={ styles.title }>{`Difficulty: ${difficulty}`}</Text>
-				<View style={ styles.board }>
-					<FlatList
-						data={ grids }
-						renderItem= {({ item: data, index }) => (
-							<Row row={ data } rowIndex={ index } />
-						)}
-						keyExtractor={(item, index) => index.toString()}
+			<KeyboardAvoidingView
+				behavior={Platform.Os == "ios" ? "padding" : "height"}
+				style={styles.container}
+			>
+				{/* <View style={styles.container}> */}
+					<Text style={ styles.title }>{`${name}'s Sudoku Game`}</Text>
+					<Text style={ styles.title }>{`Difficulty: ${difficulty}`}</Text>
+					<View style={ styles.board }>
+						<FlatList
+							data={ grids }
+							renderItem= {({ item: data, index }) => (
+								<Row row={ data } rowIndex={ index } />
+							)}
+							keyExtractor={(item, index) => index.toString()}
+						/>
+					</View>
+					<Button
+						onPress={submit}
+						title="Submit"
+						color="navy"
+						accessibilityLabel="Learn more about this purple button"
+						style= { styles.submit }
 					/>
-				</View>
-				<Button
-					onPress={submit}
-					title="Submit"
-					color="navy"
-					accessibilityLabel="Learn more about this purple button"
-					style= { styles.submit }
-				/>
-				<Button
-					onPress={solved}
-					title="Give Up!"
-					color="maroon"
-					style= { styles.submit }
-				/>
-			</View>
+					<Button
+						onPress={solved}
+						title="Give Up!"
+						color="maroon"
+						style= { styles.submit }
+					/>
+				{/* </View> */}
+			</KeyboardAvoidingView>
 		</SafeAreaView>
 	)
 }
@@ -126,7 +172,7 @@ function Grid (props) {
 
   return(
     <View style={ styles.grid }>
-      { grid === 0 ? <TextInput style={ styles.gridText } onChangeText={text => changeHandler(text) } defaultValue={ grid.toString() } /> : <TextInput editable={ false } style={ styles.gridText } onChangeText={text => changeHandler(text) } defaultValue={ grid.toString() } /> }
+      { grid === 0 ? <TextInput style={ styles.gridText } maxLength={ 1 } onChangeText={text => changeHandler(text) } defaultValue={ grid.toString() } /> : <TextInput editable={ false } style={ styles.gridText } onChangeText={text => changeHandler(text) } defaultValue={ grid.toString() } /> }
     </View>
   )
 }
