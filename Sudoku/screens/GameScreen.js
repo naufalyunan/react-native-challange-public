@@ -115,7 +115,6 @@ function Grid (props) {
 	const { grid, rowIndex, colIndex } = props
 	const dispatch = useDispatch()
 
-
 	function changeHandler(text) {
 		const payload = {
 			data: Number(text),
@@ -127,7 +126,7 @@ function Grid (props) {
 
   return(
     <View style={ styles.grid }>
-      <TextInput style={ styles.gridText } onChangeText={text => changeHandler(text) } defaultValue={ grid.toString() } ></TextInput>
+      { grid === 0 ? <TextInput style={ styles.gridText } onChangeText={text => changeHandler(text) } defaultValue={ grid.toString() } /> : <TextInput editable={ false } style={ styles.gridText } onChangeText={text => changeHandler(text) } defaultValue={ grid.toString() } /> }
     </View>
   )
 }
@@ -156,7 +155,6 @@ const styles = StyleSheet.create({
   row: {
     display: "flex",
     flexDirection: 'row',
-    // backgroundColor : 'olive',
     width: wp('90%'),
     height: hp('6%')
   },
