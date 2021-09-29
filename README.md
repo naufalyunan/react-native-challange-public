@@ -1,1 +1,1 @@
-# react-native-challenge
+# react-native-challange-public
